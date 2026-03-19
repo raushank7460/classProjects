@@ -1,34 +1,32 @@
-
-
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db.js");
-// const bodyParser = require("body-parser");
-// const mongoose = require("mongoose");
-//const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
-// const validator = require("validator");
-// const XLSX = require("xlsx");
+const userRouter = require("./routes/userRoute.js"); 
+const incomeRouter = require("./routes/incomeRoute.js");
+const expenseRouter = require("./routes/expenseRoute.js");
+
 require("dotenv").config();
+
 const app = express();
 const port = process.env.PORT || 7000;
 
-// MiddleWare
-
+// Middleware
 app.use(cors());
-// app.use(bodyParser.json());
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 
 // DB
-
 connectDB();
+
 // Routes
+app.use("/api/user", userRouter);
+app.use("/api/income", incomeRouter);
+app.use("/api/expense", expenseRouter);
 
-app.get("/",(req,res)=>{
-    res.send("API Working");
-})
+app.get("/", (req, res) => {
+  res.send("API Working");
+});
 
-app.listen(port,()=>{
-    console.log("Server is runnig ");
-})
+app.listen(port, () => {
+  console.log("Server is running on port " + port);
+});
